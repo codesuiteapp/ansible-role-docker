@@ -1,0 +1,4 @@
+---
+dkr_packages:
+  - docker-compose
+  - python3-pip

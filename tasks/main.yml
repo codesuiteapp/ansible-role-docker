@@ -1,0 +1,17 @@
+---
+- name: Install softwares with package manager
+  become: true
+  ansible.builtin.package:
+    name:
+      "{{ dkr_packages }}"
+  register: result
+  when: ansible_pkg_mgr != "pacman"
+  ignore_errors: true
+
+- name: Create docker network
+  community.docker.docker_network:
+    name: "{{ dkr_network }}"
+    driver: bridge
+    state: present
+  register: result
+  when: use_dkr_net
