@@ -1,4 +1,9 @@
 ---
+- name: Update package manager
+  become: true
+  ansible.builtin.package:
+    update_cache: true
+
 - name: Install softwares with package manager
   become: true
   ansible.builtin.package:
