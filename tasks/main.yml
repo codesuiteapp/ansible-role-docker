@@ -3,6 +3,8 @@
   become: true
   ansible.builtin.package:
     update_cache: true
+  tags:
+    - pkg
 
 - name: Install softwares with package manager
   become: true
@@ -12,6 +14,8 @@
   register: result
   when: ansible_pkg_mgr != "pacman"
   ignore_errors: true
+  tags:
+    - pkg
 
 - name: Print variables
   ansible.builtin.debug:
