@@ -28,3 +28,30 @@
     state: present
   register: result
   when: use_dkr_net
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: '{{ adm_user }}'
+    groups: docker
+    append: true
+  register: result
+
+- name: Print variables
+  ansible.builtin.debug:
+    var: result
+
+- name: Chmod /var/run/docker
+  become: true
+  ansible.builtin.file:
+    path: "{{ var_run_dkr }}"
+    state: file
+    owner: root
+    group: root
+    mode: '0666'
+  ignore_errors: true
+  register: result
+  changed_when: result.rc == 0
+
+- name: Print variables
+  ansible.builtin.debug:
+    var: result

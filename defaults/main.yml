@@ -2,3 +2,6 @@
 dkr_packages:
   - docker-compose
   - python3-pip
+
+adm_user: "appadm"
+var_run_dkr: "/var/run/docker"
