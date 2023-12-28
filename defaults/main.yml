@@ -4,4 +4,4 @@ dkr_packages:
   - python3-pip
 
 adm_user: "appadm"
-var_run_dkr: "/var/run/docker"
+var_run_dkr: "/var/run/docker.sock"
