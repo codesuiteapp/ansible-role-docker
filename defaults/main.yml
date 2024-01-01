@@ -5,3 +5,4 @@ dkr_packages:
 
 adm_user: "appadm"
 var_run_dkr: "/var/run/docker.sock"
+use_dkr_net: true
