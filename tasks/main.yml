@@ -50,7 +50,7 @@
     mode: '0666'
   ignore_errors: true
   register: result
-  changed_when: result.rc == 0
+  changed_when: result.changed
 
 - name: Print variables
   ansible.builtin.debug:
