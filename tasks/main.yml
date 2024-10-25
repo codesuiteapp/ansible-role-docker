@@ -9,49 +9,49 @@
 - name: Install softwares with package manager
   become: true
   ansible.builtin.package:
-    name:
-      "{{ dkr_packages }}"
-  register: result
+    name: "{{ dkr_packages }}"
+  register: pkg_install_result
   when: ansible_pkg_mgr != "pacman"
   ignore_errors: true
   tags:
     - pkg
 
-- name: Print variables
+- name: Print package installation result
   ansible.builtin.debug:
-    var: result
+    var: pkg_install_result
+  when: pkg_install_result is defined
 
 - name: Create docker network
   community.docker.docker_network:
     name: "{{ dkr_network }}"
     driver: bridge
     state: present
-  register: result
-  when: use_dkr_net
+  register: docker_network_result
+  when: use_dkr_net | default(true)
 
 - name: Add user to docker group
   ansible.builtin.user:
-    name: '{{ adm_user }}'
+    name: "{{ adm_user }}"
     groups: docker
     append: true
-  register: result
+  register: user_group_result
 
-- name: Print variables
+- name: Print user group modification result
   ansible.builtin.debug:
-    var: result
+    var: user_group_result
 
 - name: Chmod /var/run/docker
   become: true
   ansible.builtin.file:
     path: "{{ var_run_dkr }}"
-    state: file
+    state: directory
     owner: root
-    group: root
-    mode: '0666'
+    group: docker
+    mode: '0775'
   ignore_errors: true
-  register: result
-  changed_when: result.changed
+  register: chmod_result
+  changed_when: chmod_result.changed
 
-- name: Print variables
+- name: Print chmod result
   ansible.builtin.debug:
-    var: result
+    var: chmod_result

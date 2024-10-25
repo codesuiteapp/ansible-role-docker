@@ -1,0 +1,33 @@
+---
+- name: Start Docker service
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true
+  listen: "start docker"
+
+- name: Stop Docker service
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    state: stopped
+  listen: "stop docker"
+
+- name: Restart Docker service
+  become: true
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+  listen: "restart docker"
+
+- name: Print Docker service status
+  ansible.builtin.systemd:
+    name: docker
+  register: docker_status
+  listen: "check docker status"
+
+- name: Display Docker service status
+  ansible.builtin.debug:
+    var: docker_status
+  listen: "check docker status"
